@@ -69,23 +69,30 @@ struct ContentView: View {
                 }
 
                 Spacer()
+                
+                // 底部设置按钮
+                Button(action: {
+                    showingSettings = true
+                }) {
+                    HStack {
+                        Image(systemName: "gear")
+                        Text("设置")
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.blue.opacity(0.2))
+                    .cornerRadius(10)
+                }
+                .padding(.bottom)
             }
             .padding()
             .navigationTitle("睡眠声音监测")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    HStack(spacing: 16) {
-                        Button(action: {
-                            showingSettings = true
-                        }) {
-                            Image(systemName: "gear")
-                        }
-                        
-                        NavigationLink(destination: CloudRecordingsView(recordingManager: recordingManager)) {
-                            HStack {
-                                Image(systemName: "icloud")
-                                Text("录音记录")
-                            }
+                    NavigationLink(destination: CloudRecordingsView(recordingManager: recordingManager)) {
+                        HStack {
+                            Image(systemName: "icloud")
+                            Text("录音记录")
                         }
                     }
                 }
