@@ -1,0 +1,393 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 63;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		05D671FECA8BFD3A99C085FC /* CloudRecordingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79FA7124F637BA26AE4B749 /* CloudRecordingsView.swift */; };
+		098E8363EE43EE81D5495C79 /* RecordingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5554DC0289364052CAEAE1B6 /* RecordingManager.swift */; };
+		1772071E516B827EF687542D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EAB87E5B40AA6F56DF11598 /* ContentView.swift */; };
+		4238ED0CF67E2764C7310526 /* SleepDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1C1885B26E8936D2A34856 /* SleepDataManager.swift */; };
+		55F7C931AEADEF489DAC83DE /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E90BDA0F27BD9139C49240 /* AudioRecorder.swift */; };
+		5776FE3F22A7130573B25ACB /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E32A6F2576E6EDF2E4E5B1 /* Models.swift */; };
+		63E5139E695D08A117FB8F93 /* AudioWaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA263DD89EA73A3F8C8EF99 /* AudioWaveformView.swift */; };
+		6D9040127769A49631978643 /* Speech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AAB32E2C2C0B713F57BF3B5 /* Speech.framework */; };
+		793138E4929B022E92715351 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF204C0E96FA7BF1B2868180 /* CloudManager.swift */; };
+		95C01A7167C780EAA7B346BF /* TimerSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC0C8D5DDC063316261DEAC /* TimerSettingView.swift */; };
+		ACC07F3A18864CEF7F3A86E1 /* SleepApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BFA6CA4329E3B3014CD1606 /* SleepApp.swift */; };
+		B7537DBBF532F7B1FA3FAC66 /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFFDF06AAEDD79EF289E36AC /* CoreML.framework */; };
+		B7FF64204F48CBA9295E44AE /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D724097BE2F37E048633762 /* AudioPlayer.swift */; };
+		B94665BC68D8163E925894D6 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8166F7A0927109086349FCF1 /* HealthKit.framework */; };
+		BB2FFFC5C33C5C548CB0C372 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A4BE59A4C25650936F21083 /* AVFoundation.framework */; };
+		E3765447444B6EA62DAA33BC /* AudioClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A6DEE76DDF28112FE8DADA /* AudioClassifier.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		00EE6A4E2E35C3760018FC48 /* BetterSleep.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BetterSleep.entitlements; sourceTree = "<group>"; };
+		0EAB87E5B40AA6F56DF11598 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1AA263DD89EA73A3F8C8EF99 /* AudioWaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioWaveformView.swift; sourceTree = "<group>"; };
+		1BFA6CA4329E3B3014CD1606 /* SleepApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepApp.swift; sourceTree = "<group>"; };
+		34E32A6F2576E6EDF2E4E5B1 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		4AAB32E2C2C0B713F57BF3B5 /* Speech.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Speech.framework; path = System/Library/Frameworks/Speech.framework; sourceTree = SDKROOT; };
+		5554DC0289364052CAEAE1B6 /* RecordingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingManager.swift; sourceTree = "<group>"; };
+		5A4BE59A4C25650936F21083 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		63F17908E393C9E039F944BC /* BetterSleep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BetterSleep.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D724097BE2F37E048633762 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
+		8166F7A0927109086349FCF1 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		82530F9B8EB1E274F62B18F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		92A6DEE76DDF28112FE8DADA /* AudioClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioClassifier.swift; sourceTree = "<group>"; };
+		A4E90BDA0F27BD9139C49240 /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
+		BC1C1885B26E8936D2A34856 /* SleepDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepDataManager.swift; sourceTree = "<group>"; };
+		CF204C0E96FA7BF1B2868180 /* CloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudManager.swift; sourceTree = "<group>"; };
+		D79FA7124F637BA26AE4B749 /* CloudRecordingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudRecordingsView.swift; sourceTree = "<group>"; };
+		DCC0C8D5DDC063316261DEAC /* TimerSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerSettingView.swift; sourceTree = "<group>"; };
+		DFFDF06AAEDD79EF289E36AC /* CoreML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreML.framework; path = System/Library/Frameworks/CoreML.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EBD7FE9D1DE4FE9D43837C02 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B94665BC68D8163E925894D6 /* HealthKit.framework in Frameworks */,
+				BB2FFFC5C33C5C548CB0C372 /* AVFoundation.framework in Frameworks */,
+				B7537DBBF532F7B1FA3FAC66 /* CoreML.framework in Frameworks */,
+				6D9040127769A49631978643 /* Speech.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4311824E932A928174280993 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				8202E31528627C76D5627A50 /* BetterSleep */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		8202E31528627C76D5627A50 /* BetterSleep */ = {
+			isa = PBXGroup;
+			children = (
+				92A6DEE76DDF28112FE8DADA /* AudioClassifier.swift */,
+				6D724097BE2F37E048633762 /* AudioPlayer.swift */,
+				A4E90BDA0F27BD9139C49240 /* AudioRecorder.swift */,
+				1AA263DD89EA73A3F8C8EF99 /* AudioWaveformView.swift */,
+				CF204C0E96FA7BF1B2868180 /* CloudManager.swift */,
+				D79FA7124F637BA26AE4B749 /* CloudRecordingsView.swift */,
+				0EAB87E5B40AA6F56DF11598 /* ContentView.swift */,
+				82530F9B8EB1E274F62B18F5 /* Info.plist */,
+				34E32A6F2576E6EDF2E4E5B1 /* Models.swift */,
+				5554DC0289364052CAEAE1B6 /* RecordingManager.swift */,
+				1BFA6CA4329E3B3014CD1606 /* SleepApp.swift */,
+				BC1C1885B26E8936D2A34856 /* SleepDataManager.swift */,
+				DCC0C8D5DDC063316261DEAC /* TimerSettingView.swift */,
+			);
+			path = BetterSleep;
+			sourceTree = "<group>";
+		};
+		A61B248B233F03A7774ACCEB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5A4BE59A4C25650936F21083 /* AVFoundation.framework */,
+				DFFDF06AAEDD79EF289E36AC /* CoreML.framework */,
+				8166F7A0927109086349FCF1 /* HealthKit.framework */,
+				4AAB32E2C2C0B713F57BF3B5 /* Speech.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BDF33B108D64EDDF147A854A = {
+			isa = PBXGroup;
+			children = (
+				00EE6A4E2E35C3760018FC48 /* BetterSleep.entitlements */,
+				4311824E932A928174280993 /* Sources */,
+				A61B248B233F03A7774ACCEB /* Frameworks */,
+				E72B3F459CE3CA510147DD80 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E72B3F459CE3CA510147DD80 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				63F17908E393C9E039F944BC /* BetterSleep.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		60AB8EFB11AA85AB3BA7E171 /* BetterSleep */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 69C57F183AFF5C0F5ED0DC8F /* Build configuration list for PBXNativeTarget "BetterSleep" */;
+			buildPhases = (
+				9B3C2D9ECA225DBD6490DFDC /* Sources */,
+				EBD7FE9D1DE4FE9D43837C02 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BetterSleep;
+			packageProductDependencies = (
+			);
+			productName = BetterSleep;
+			productReference = 63F17908E393C9E039F944BC /* BetterSleep.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		13089481B76125D496395FF1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					60AB8EFB11AA85AB3BA7E171 = {
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 769DABAC397494293752D121 /* Build configuration list for PBXProject "BetterSleep" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = BDF33B108D64EDDF147A854A;
+			minimizedProjectReferenceProxies = 1;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				60AB8EFB11AA85AB3BA7E171 /* BetterSleep */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9B3C2D9ECA225DBD6490DFDC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E3765447444B6EA62DAA33BC /* AudioClassifier.swift in Sources */,
+				B7FF64204F48CBA9295E44AE /* AudioPlayer.swift in Sources */,
+				55F7C931AEADEF489DAC83DE /* AudioRecorder.swift in Sources */,
+				63E5139E695D08A117FB8F93 /* AudioWaveformView.swift in Sources */,
+				793138E4929B022E92715351 /* CloudManager.swift in Sources */,
+				05D671FECA8BFD3A99C085FC /* CloudRecordingsView.swift in Sources */,
+				1772071E516B827EF687542D /* ContentView.swift in Sources */,
+				5776FE3F22A7130573B25ACB /* Models.swift in Sources */,
+				098E8363EE43EE81D5495C79 /* RecordingManager.swift in Sources */,
+				ACC07F3A18864CEF7F3A86E1 /* SleepApp.swift in Sources */,
+				4238ED0CF67E2764C7310526 /* SleepDataManager.swift in Sources */,
+				95C01A7167C780EAA7B346BF /* TimerSettingView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		641CFCE9CC94814A87C4E706 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		82F0B515951B6D3FD54FCF44 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		A46E06ADD13E65DD94082C94 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BetterSleep.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X3DMQ35L3N;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/BetterSleep/Info.plist;
+				INFOPLIST_KEY_CFBundleIdentifier = com.littlegragon.BetterSleep;
+				INFOPLIST_KEY_CFBundleName = BetterSleep;
+				INFOPLIST_KEY_CFBundleShortVersionString = 1.0;
+				INFOPLIST_KEY_CFBundleVersion = 1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.littlegragon.BetterSleep;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F82221FF20E803272DFFB559 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BetterSleep.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = X3DMQ35L3N;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Sources/BetterSleep/Info.plist;
+				INFOPLIST_KEY_CFBundleIdentifier = com.littlegragon.BetterSleep;
+				INFOPLIST_KEY_CFBundleName = BetterSleep;
+				INFOPLIST_KEY_CFBundleShortVersionString = 1.0;
+				INFOPLIST_KEY_CFBundleVersion = 1;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.littlegragon.BetterSleep;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		69C57F183AFF5C0F5ED0DC8F /* Build configuration list for PBXNativeTarget "BetterSleep" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A46E06ADD13E65DD94082C94 /* Debug */,
+				F82221FF20E803272DFFB559 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		769DABAC397494293752D121 /* Build configuration list for PBXProject "BetterSleep" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82F0B515951B6D3FD54FCF44 /* Debug */,
+				641CFCE9CC94814A87C4E706 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 13089481B76125D496395FF1 /* Project object */;
+}
