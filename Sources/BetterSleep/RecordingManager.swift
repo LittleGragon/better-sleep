@@ -40,7 +40,17 @@ class RecordingManager: NSObject, ObservableObject {
         // cloudManager.startMonitoringCloudChanges()
         
         // 加载录音文件
-        loadRecordings()
+        if UserSettings.shared.isRecordingStorageEnabled {
+            loadRecordings()
+        }
+        
+        // 监听设置变更通知
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleSettingsChanged),
+            name: NSNotification.Name("SettingsChanged"),
+            object: nil
+        )
         
         // 暂时注释掉 iCloud 通知监听
         // NotificationCenter.default.addObserver(
@@ -69,6 +79,15 @@ class RecordingManager: NSObject, ObservableObject {
     
     // 加载录音文件
     func loadRecordings() {
+        // 检查用户是否启用了录音存储
+        guard UserSettings.shared.isRecordingStorageEnabled else {
+            DispatchQueue.main.async {
+                self.recordings = []
+                print("录音存储功能已被用户禁用，不加载录音")
+            }
+            return
+        }
+        
         let permissions = cloudManager.checkStoragePermissions()
         guard permissions.isAvailable else {
             DispatchQueue.main.async {
@@ -257,6 +276,12 @@ class RecordingManager: NSObject, ObservableObject {
     
     // 保存录音到存储
     private func saveRecordingToStorage(url: URL) {
+        // 检查用户是否启用了录音存储
+        guard UserSettings.shared.isRecordingStorageEnabled else {
+            print("录音存储功能已被用户禁用，不保存录音")
+            return
+        }
+        
         let permissions = cloudManager.checkStoragePermissions()
         guard permissions.isAvailable else {
             print("存储不可用，无法保存录音: \(permissions.errorMessage ?? "未知错误")")
@@ -351,5 +376,18 @@ class RecordingManager: NSObject, ObservableObject {
         delayTimer = nil
         isTimerActive = false
         remainingTime = 0
+    }
+    
+    // 处理设置变更
+    @objc private func handleSettingsChanged() {
+        if UserSettings.shared.isRecordingStorageEnabled {
+            // 如果启用了录音存储，重新加载录音
+            loadRecordings()
+        } else {
+            // 如果禁用了录音存储，清空录音列表
+            DispatchQueue.main.async {
+                self.recordings = []
+            }
+        }
     }
 }

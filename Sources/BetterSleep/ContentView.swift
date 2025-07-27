@@ -11,6 +11,7 @@ struct ContentView: View {
     @State private var permissionMessage = ""
     @State private var recentSleepData: [HKCategorySample]?
     @State private var showingTimerSettings = false
+    @State private var showingSettings = false
 
     var body: some View {
         NavigationView {
@@ -73,17 +74,27 @@ struct ContentView: View {
             .navigationTitle("睡眠声音监测")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: CloudRecordingsView(recordingManager: recordingManager)) {
-                        HStack {
-                            // 暂时只显示文件夹图标
-                            Image(systemName: "folder")
-                            Text("录音记录")
+                    HStack(spacing: 16) {
+                        Button(action: {
+                            showingSettings = true
+                        }) {
+                            Image(systemName: "gear")
+                        }
+                        
+                        NavigationLink(destination: CloudRecordingsView(recordingManager: recordingManager)) {
+                            HStack {
+                                Image(systemName: "icloud")
+                                Text("录音记录")
+                            }
                         }
                     }
                 }
             }
             .alert(isPresented: $showingPermissionAlert) {
                 Alert(title: Text("权限不足"), message: Text(permissionMessage), dismissButton: .default(Text("前往设置")) { openSettings() })
+            }
+            .sheet(isPresented: $showingSettings) {
+                SettingsView()
             }
             .sheet(isPresented: $showingTimerSettings) {
                 VStack {

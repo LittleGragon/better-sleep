@@ -17,10 +17,35 @@ struct CloudRecordingsView: View {
     @State private var selectedRecording: URL?
     @State private var showSaveSuccess = false
     @State private var showSaveError = false
+    @State private var showSettings = false
     
     var body: some View {
         VStack {
-            if recordingManager.isStorageAvailable {
+            if !UserSettings.shared.isRecordingStorageEnabled {
+                VStack(spacing: 20) {
+                    Image(systemName: "xmark.circle")
+                        .font(.system(size: 60))
+                        .foregroundColor(.gray)
+                    
+                    Text("录音存储功能已关闭")
+                        .font(.headline)
+                    
+                    Text("您可以在设置中开启录音存储功能")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+                    
+                    Button(action: {
+                        showSettings = true
+                    }) {
+                        Text("前往设置")
+                            .foregroundColor(.blue)
+                    }
+                    .padding()
+                }
+                .padding()
+            } else if recordingManager.isStorageAvailable {
                 if recordingManager.isSavingToStorage {
                     ProgressView("正在保存录音到\(recordingManager.storageType)...")
                         .padding()
@@ -54,10 +79,10 @@ struct CloudRecordingsView: View {
                                         .font(.title)
                                         .foregroundColor(.blue)
                                 }
+                                .padding(.trailing, 8) // 增加右侧间距
                                 
                                 Button(action: {
-                                    selectedRecording = url
-                                    showAlert = true
+                                    deleteRecording(url: url)
                                 }) {
                                     Image(systemName: "trash")
                                         .foregroundColor(.red)
@@ -105,6 +130,9 @@ struct CloudRecordingsView: View {
                 },
                 secondaryButton: .cancel()
             )
+        }
+        .sheet(isPresented: $showSettings) {
+            SettingsView()
         }
         .onDisappear {
             stopPlayback()

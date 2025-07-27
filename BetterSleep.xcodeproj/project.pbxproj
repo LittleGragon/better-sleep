@@ -15,6 +15,7 @@
 		5776FE3F22A7130573B25ACB /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E32A6F2576E6EDF2E4E5B1 /* Models.swift */; };
 		63E5139E695D08A117FB8F93 /* AudioWaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA263DD89EA73A3F8C8EF99 /* AudioWaveformView.swift */; };
 		6D9040127769A49631978643 /* Speech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AAB32E2C2C0B713F57BF3B5 /* Speech.framework */; };
+		74B5B209F6373CE3E81ABEF4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0490A817CF775C8CA48DBF5 /* SettingsView.swift */; };
 		793138E4929B022E92715351 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF204C0E96FA7BF1B2868180 /* CloudManager.swift */; };
 		95C01A7167C780EAA7B346BF /* TimerSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC0C8D5DDC063316261DEAC /* TimerSettingView.swift */; };
 		ACC07F3A18864CEF7F3A86E1 /* SleepApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BFA6CA4329E3B3014CD1606 /* SleepApp.swift */; };
@@ -22,11 +23,12 @@
 		B7FF64204F48CBA9295E44AE /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D724097BE2F37E048633762 /* AudioPlayer.swift */; };
 		B94665BC68D8163E925894D6 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8166F7A0927109086349FCF1 /* HealthKit.framework */; };
 		BB2FFFC5C33C5C548CB0C372 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A4BE59A4C25650936F21083 /* AVFoundation.framework */; };
+		BDD73BAA130200CB1DD3E2D6 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAFE8293EEBC828F756C261 /* UserSettings.swift */; };
 		E3765447444B6EA62DAA33BC /* AudioClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A6DEE76DDF28112FE8DADA /* AudioClassifier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		00EE6A4E2E35C3760018FC48 /* BetterSleep.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BetterSleep.entitlements; sourceTree = "<group>"; };
+		00EE6A572E36812F0018FC48 /* BetterSleep.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BetterSleep.entitlements; sourceTree = "<group>"; };
 		0EAB87E5B40AA6F56DF11598 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1AA263DD89EA73A3F8C8EF99 /* AudioWaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioWaveformView.swift; sourceTree = "<group>"; };
 		1BFA6CA4329E3B3014CD1606 /* SleepApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepApp.swift; sourceTree = "<group>"; };
@@ -39,7 +41,9 @@
 		8166F7A0927109086349FCF1 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		82530F9B8EB1E274F62B18F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		92A6DEE76DDF28112FE8DADA /* AudioClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioClassifier.swift; sourceTree = "<group>"; };
+		A0490A817CF775C8CA48DBF5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		A4E90BDA0F27BD9139C49240 /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
+		BAAFE8293EEBC828F756C261 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		BC1C1885B26E8936D2A34856 /* SleepDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepDataManager.swift; sourceTree = "<group>"; };
 		CF204C0E96FA7BF1B2868180 /* CloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudManager.swift; sourceTree = "<group>"; };
 		D79FA7124F637BA26AE4B749 /* CloudRecordingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudRecordingsView.swift; sourceTree = "<group>"; };
@@ -83,9 +87,11 @@
 				82530F9B8EB1E274F62B18F5 /* Info.plist */,
 				34E32A6F2576E6EDF2E4E5B1 /* Models.swift */,
 				5554DC0289364052CAEAE1B6 /* RecordingManager.swift */,
+				A0490A817CF775C8CA48DBF5 /* SettingsView.swift */,
 				1BFA6CA4329E3B3014CD1606 /* SleepApp.swift */,
 				BC1C1885B26E8936D2A34856 /* SleepDataManager.swift */,
 				DCC0C8D5DDC063316261DEAC /* TimerSettingView.swift */,
+				BAAFE8293EEBC828F756C261 /* UserSettings.swift */,
 			);
 			path = BetterSleep;
 			sourceTree = "<group>";
@@ -104,7 +110,7 @@
 		BDF33B108D64EDDF147A854A = {
 			isa = PBXGroup;
 			children = (
-				00EE6A4E2E35C3760018FC48 /* BetterSleep.entitlements */,
+				00EE6A572E36812F0018FC48 /* BetterSleep.entitlements */,
 				4311824E932A928174280993 /* Sources */,
 				A61B248B233F03A7774ACCEB /* Frameworks */,
 				E72B3F459CE3CA510147DD80 /* Products */,
@@ -186,9 +192,11 @@
 				1772071E516B827EF687542D /* ContentView.swift in Sources */,
 				5776FE3F22A7130573B25ACB /* Models.swift in Sources */,
 				098E8363EE43EE81D5495C79 /* RecordingManager.swift in Sources */,
+				74B5B209F6373CE3E81ABEF4 /* SettingsView.swift in Sources */,
 				ACC07F3A18864CEF7F3A86E1 /* SleepApp.swift in Sources */,
 				4238ED0CF67E2764C7310526 /* SleepDataManager.swift in Sources */,
 				95C01A7167C780EAA7B346BF /* TimerSettingView.swift in Sources */,
+				BDD73BAA130200CB1DD3E2D6 /* UserSettings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

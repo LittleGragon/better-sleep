@@ -12,6 +12,8 @@ struct SleepApp: App {
     private let recordingManager: RecordingManager
 
     init() {
+        // 确保UserSettings已初始化
+        _ = UserSettings.shared
         // 初始化健康数据管理器
         sleepDataManager = SleepDataManager(healthStore: healthStore)
         // 初始化录音管理器
