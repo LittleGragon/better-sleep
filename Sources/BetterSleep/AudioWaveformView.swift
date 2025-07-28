@@ -1,21 +1,35 @@
 import SwiftUI
 
 struct AudioWaveformView: View {
-    var audioLevels: [Float]
-    var color: Color = .blue
+    @Binding var levels: [Float]
+    @Binding var progress: Double
     
     var body: some View {
         GeometryReader { geometry in
-            HStack(alignment: .center, spacing: 2) {
-                ForEach(0..<audioLevels.count, id: \.self) { index in
-                    RoundedRectangle(cornerRadius: 3)
-                        .fill(color)
-                        .frame(width: (geometry.size.width / CGFloat(audioLevels.count)) - 2, 
-                               height: CGFloat(audioLevels[index]) * geometry.size.height / 100)
+            ZStack(alignment: .leading) {
+                // 背景波形
+                HStack(spacing: 2) {
+                    ForEach(0..<levels.count, id: \.self) { index in
+                        let height = CGFloat(levels[index]) * geometry.size.height
+                        RoundedRectangle(cornerRadius: 2)
+                            .fill(Color.gray.opacity(0.5))
+                            .frame(width: 3, height: max(height, 1))
+                    }
                 }
+                .frame(width: geometry.size.width)
+                
+                // 播放进度波形
+                let progressIndex = Int(Double(levels.count) * progress)
+                HStack(spacing: 2) {
+                    ForEach(0..<progressIndex, id: \.self) { index in
+                        let height = CGFloat(levels[index]) * geometry.size.height
+                        RoundedRectangle(cornerRadius: 2)
+                            .fill(Color.blue.opacity(0.8))
+                            .frame(width: 3, height: max(height, 1))
+                    }
+                }
+                .frame(width: geometry.size.width * progress)
             }
-            .frame(height: geometry.size.height)
-            .animation(.easeInOut(duration: 0.2), value: audioLevels)
         }
     }
 }
@@ -72,7 +86,7 @@ struct AudioVisualizationView: View {
                 .padding(.horizontal)
             
             // 波形图
-            AudioWaveformView(audioLevels: recordingManager.audioLevels, color: .blue)
+            AudioWaveformView(levels: .constant(recordingManager.audioLevels), progress: .constant(0.5))
                 .frame(height: 80)
                 .padding(.horizontal)
         }

@@ -8,10 +8,7 @@ extension Notification.Name {
 
 struct CloudRecordingsView: View {
     @ObservedObject var recordingManager: RecordingManager
-    @State private var audioPlayer: AVAudioPlayer?
-    @State private var playingURL: URL?
-    @State private var isPlaying = false
-    @State private var playbackDelegate: PlaybackDelegate?
+
     @State private var showAlert = false
     @State private var alertMessage = ""
     @State private var selectedRecording: URL?
@@ -56,36 +53,22 @@ struct CloudRecordingsView: View {
                 } else {
                     List {
                         ForEach(recordingManager.recordings, id: \.self) { url in
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Text(formatRecordingName(url: url))
-                                        .font(.headline)
-                                    
-                                    Text(formatRecordingDate(url: url))
-                                        .font(.subheadline)
-                                        .foregroundColor(.secondary)
-                                }
-                                
-                                Spacer()
-                                
-                                Button(action: {
-                                    if playingURL == url && isPlaying {
-                                        stopPlayback()
-                                    } else {
-                                        playRecording(url: url)
+                            NavigationLink(destination: RecordingDetailView(recordingURL: url)) {
+                                HStack {
+                                    VStack(alignment: .leading) {
+                                        Text(formatRecordingName(url: url))
+                                            .font(.headline)
+                                        
+                                        Text(formatRecordingDate(url: url))
+                                            .font(.subheadline)
+                                            .foregroundColor(.secondary)
                                     }
-                                }) {
-                                    Image(systemName: (playingURL == url && isPlaying) ? "stop.circle" : "play.circle")
-                                        .font(.title)
-                                        .foregroundColor(.blue)
-                                }
-                                .padding(.trailing, 8) // 增加右侧间距
-                                
-                                Button(action: {
-                                    deleteRecording(url: url)
-                                }) {
-                                    Image(systemName: "trash")
-                                        .foregroundColor(.red)
+                                    
+                                    Spacer()
+                                    
+                                    // Image(systemName: "chevron.right")
+                                    //     .foregroundColor(.blue)
+                                    //     .font(.system(size: 14, weight: .bold))
                                 }
                             }
                             .padding(.vertical, 8)
@@ -134,9 +117,7 @@ struct CloudRecordingsView: View {
         .sheet(isPresented: $showSettings) {
             SettingsView()
         }
-        .onDisappear {
-            stopPlayback()
-        }
+        
         .onAppear {
             // 监听保存成功通知
             NotificationCenter.default.addObserver(forName: .recordingSavedSuccessfully, object: nil, queue: .main) { _ in
@@ -198,48 +179,8 @@ struct CloudRecordingsView: View {
         return "未知日期"
     }
     
-    // 播放录音
-    private func playRecording(url: URL) {
-        do {
-            // 停止当前播放
-            stopPlayback()
-            
-            // 设置音频会话
-            try AVAudioSession.sharedInstance().setCategory(.playback)
-            try AVAudioSession.sharedInstance().setActive(true)
-            
-            // 创建播放器
-            audioPlayer = try AVAudioPlayer(contentsOf: url)
-            playbackDelegate = PlaybackDelegate(onComplete: {
-                self.isPlaying = false
-                self.playingURL = nil
-            })
-            audioPlayer?.delegate = playbackDelegate
-            audioPlayer?.prepareToPlay()
-            audioPlayer?.play()
-            
-            playingURL = url
-            isPlaying = true
-        } catch {
-            alertMessage = "播放录音失败: \(error.localizedDescription)"
-            showAlert = true
-        }
-    }
-    
-    // 停止播放
-    private func stopPlayback() {
-        audioPlayer?.stop()
-        audioPlayer = nil
-        isPlaying = false
-    }
-    
     // 删除录音
     private func deleteRecording(url: URL) {
-        // 如果正在播放，先停止
-        if playingURL == url {
-            stopPlayback()
-        }
-        
         recordingManager.deleteRecording(url: url) { success in
             if !success {
                 alertMessage = "删除录音失败"
@@ -249,15 +190,3 @@ struct CloudRecordingsView: View {
     }
 }
 
-// 播放完成代理
-class PlaybackDelegate: NSObject, AVAudioPlayerDelegate {
-    var onComplete: () -> Void
-    
-    init(onComplete: @escaping () -> Void) {
-        self.onComplete = onComplete
-    }
-    
-    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        onComplete()
-    }
-}

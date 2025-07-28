@@ -12,6 +12,8 @@ targets:
       - sdk: AVFoundation.framework
       - sdk: CoreML.framework
       - sdk: Speech.framework
+      - target: BetterSleepWatch
+      - target: BetterSleepWatch Extension
     bundleId: com.littlegragon.BetterSleep
     settings:
       GENERATE_INFOPLIST_FILE: NO
@@ -21,6 +23,45 @@ targets:
       INFOPLIST_KEY_CFBundleName: BetterSleep
       INFOPLIST_KEY_CFBundleShortVersionString: 1.0
       INFOPLIST_KEY_CFBundleVersion: 1
+      MARKETING_VERSION: 1.0
+      CURRENT_PROJECT_VERSION: 1
+      CODE_SIGN_STYLE: Automatic
+    attributes:
+      ProvisioningStyle: Automatic
+      
+  BetterSleepWatch:
+    type: application.watchapp2
+    platform: watchOS
+    deploymentTarget: 8.0
+    sources: [Sources/WatchApp]
+    dependencies:
+      - target: BetterSleepWatch Extension
+    bundleId: com.littlegragon.BetterSleep.watchapp
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.littlegragon.BetterSleep.watchapp
+      INFOPLIST_KEY_CFBundleDisplayName: BetterSleep
+      INFOPLIST_KEY_WKCompanionAppBundleIdentifier: com.littlegragon.BetterSleep
+      MARKETING_VERSION: 1.0
+      CURRENT_PROJECT_VERSION: 1
+      CODE_SIGN_STYLE: Automatic
+    attributes:
+      ProvisioningStyle: Automatic
+      
+  BetterSleepWatch Extension:
+    type: watchkit2-extension
+    platform: watchOS
+    deploymentTarget: 8.0
+    sources: [Sources/WatchExtension]
+    dependencies:
+      - sdk: WatchKit.framework
+      - sdk: HealthKit.framework
+      - sdk: CoreMotion.framework
+    bundleId: com.littlegragon.BetterSleep.watchapp.extension
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.littlegragon.BetterSleep.watchapp.extension
+      INFOPLIST_KEY_CFBundleDisplayName: BetterSleep Watch Extension
+      INFOPLIST_KEY_WKExtensionDelegateClassName: $(PRODUCT_MODULE_NAME).ExtensionDelegate
+      INFOPLIST_KEY_WKWatchOnly: true
       MARKETING_VERSION: 1.0
       CURRENT_PROJECT_VERSION: 1
       CODE_SIGN_STYLE: Automatic
