@@ -241,12 +241,11 @@ struct ContentView: View {
     private func playSegment(_ segment: AudioSegment) {
         guard let url = segment.url else { return }
         
-        if audioPlayer.isPlaying && audioPlayer.isPlayingURL(url as URL) {
-            audioPlayer.pausePlayback()
-        } else if audioPlayer.isPlaying {
-            audioPlayer.stopPlayback()
-            audioPlayer.playAudio(from: url)
+        if audioPlayer.isPlayingURL(url) {
+            // 如果当前正在播放这个片段，则暂停
+            audioPlayer.pauseAudio(for: url)
         } else {
+            // 如果当前没有播放这个片段，则播放它
             audioPlayer.playAudio(from: url)
         }
     }
