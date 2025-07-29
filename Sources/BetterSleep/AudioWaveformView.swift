@@ -26,7 +26,7 @@ struct DecibelMeterView: View {
     
     var body: some View {
         VStack {
-            Text("\(Int(currentDecibels)) dB")
+            Text("\(Int(currentDecibels))%")
                 .font(.caption)
                 .foregroundColor(.secondary)
             

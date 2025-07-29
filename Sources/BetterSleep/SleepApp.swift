@@ -2,6 +2,7 @@ import SwiftUI
 import HealthKit
 import AVFoundation
 import BackgroundTasks
+import UserNotifications
 
 @main
 struct SleepApp: App {
@@ -34,6 +35,15 @@ struct SleepApp: App {
         } catch {
             print("设置音频会话失败: \(error.localizedDescription)")
         }
+        
+        // 请求通知权限
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            if granted {
+                print("通知权限已授予")
+            } else if let error = error {
+                print("请求通知权限失败: \(error.localizedDescription)")
+            }
+        }
     }
 
     var body: some Scene {
@@ -47,11 +57,21 @@ struct SleepApp: App {
                 if recordingManager.isMonitoring {
                     print("应用进入后台，继续监测中...")
                 }
+                
+                // 如果定时器正在运行，确保它在后台也能继续
+                if recordingManager.isTimerActive {
+                    print("应用进入后台，定时器继续运行...")
+                }
             }
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
                 // 应用回到前台时的处理
                 if recordingManager.isMonitoring {
                     print("应用回到前台，继续监测中...")
+                }
+                
+                // 如果定时器正在运行，更新UI
+                if recordingManager.isTimerActive {
+                    print("应用回到前台，定时器继续运行...")
                 }
             }
         }

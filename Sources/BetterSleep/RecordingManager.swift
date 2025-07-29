@@ -2,6 +2,7 @@ import Foundation
 import AVFoundation
 import UIKit
 import BackgroundTasks
+import UserNotifications
 
 class RecordingManager: NSObject, ObservableObject {
     private let audioRecorder: AudioRecorder
@@ -124,6 +125,13 @@ class RecordingManager: NSObject, ObservableObject {
         if success {
             isMonitoring = true
             currentRecordingURL = audioRecorder.currentRecordingURL
+            
+            // 重置音频电平数组
+            DispatchQueue.main.async {
+                self.audioLevels = Array(repeating: 0, count: 30)
+                self.currentDecibels = 0.0
+            }
+            
             startAnalysisTimer()
             startBackgroundTask()
             startAudioLevelMonitoring()
@@ -154,7 +162,7 @@ class RecordingManager: NSObject, ObservableObject {
     // 监控音频电平
     private func startAudioLevelMonitoring() {
         // 创建一个更频繁的定时器来更新音频电平
-        Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
+        let levelTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
             guard let self = self, self.isMonitoring else { return }
             
             if let recorder = self.audioRecorder.audioRecorder {
@@ -171,6 +179,9 @@ class RecordingManager: NSObject, ObservableObject {
                 }
             }
         }
+        
+        // 确保定时器在后台也能运行
+        RunLoop.current.add(levelTimer, forMode: .common)
     }
     
     // 将分贝值标准化到0-100范围
@@ -178,6 +189,11 @@ class RecordingManager: NSObject, ObservableObject {
         // 音频电平通常在-160到0之间，我们将其映射到0-100
         let minDb: Float = -60.0 // 最小可听分贝
         let maxDb: Float = 0.0   // 最大分贝
+        
+        // 检查是否为无效值
+        if power.isNaN || power.isInfinite {
+            return 0.0
+        }
         
         // 限制在范围内
         let clampedPower = max(minDb, min(power, maxDb))
@@ -213,6 +229,9 @@ class RecordingManager: NSObject, ObservableObject {
             [weak self] _ in
             self?.analyzeRecentAudio()
         }
+        
+        // 确保定时器在后台也能运行
+        RunLoop.current.add(analysisTimer!, forMode: .common)
     }
 
     // 停止分析定时器
@@ -359,6 +378,11 @@ class RecordingManager: NSObject, ObservableObject {
             
             if self.remainingTime > 0 {
                 self.remainingTime -= 1
+                
+                // 如果剩余时间是整10秒，请求额外的后台执行时间
+                if Int(self.remainingTime) % 10 == 0 {
+                    self.extendBackgroundRunningTime()
+                }
             } else {
                 // 时间到，启动监测
                 self.cancelDelayedMonitoring()
@@ -368,6 +392,12 @@ class RecordingManager: NSObject, ObservableObject {
         
         // 确保定时器在后台也能运行
         RunLoop.current.add(delayTimer!, forMode: .common)
+        
+        // 请求系统提供额外的后台执行时间
+        extendBackgroundRunningTime()
+        
+        // 注册本地通知，以防应用被系统终止
+        scheduleTimerCompletionNotification(duration: duration)
     }
     
     // 取消定时器
@@ -387,6 +417,54 @@ class RecordingManager: NSObject, ObservableObject {
             // 如果禁用了录音存储，清空录音列表
             DispatchQueue.main.async {
                 self.recordings = []
+            }
+        }
+    }
+    
+    // 请求额外的后台执行时间
+    private func extendBackgroundRunningTime() {
+        if backgroundTask != .invalid {
+            UIApplication.shared.endBackgroundTask(backgroundTask)
+        }
+        
+        backgroundTask = UIApplication.shared.beginBackgroundTask { [weak self] in
+            // 后台任务即将过期时的清理工作
+            if let bgTask = self?.backgroundTask, bgTask != .invalid {
+                UIApplication.shared.endBackgroundTask(bgTask)
+                self?.backgroundTask = .invalid
+            }
+        }
+    }
+    
+    // 安排定时器完成通知
+    private func scheduleTimerCompletionNotification(duration: TimeInterval) {
+        // 取消之前的通知
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        
+        // 请求通知权限
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, error in
+            guard granted else {
+                print("通知权限被拒绝")
+                return
+            }
+            
+            // 创建通知内容
+            let content = UNMutableNotificationContent()
+            content.title = "睡眠监测已开始"
+            content.body = "定时器已完成，睡眠监测已自动开始"
+            content.sound = UNNotificationSound.default
+            
+            // 创建触发器（在定时器结束时触发）
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: duration + 1, repeats: false)
+            
+            // 创建通知请求
+            let request = UNNotificationRequest(identifier: "timerCompletion", content: content, trigger: trigger)
+            
+            // 添加通知请求
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error = error {
+                    print("添加通知失败: \(error.localizedDescription)")
+                }
             }
         }
     }
