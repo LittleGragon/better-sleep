@@ -2,20 +2,44 @@ import SwiftUI
 import HealthKit
 import AVFoundation
 import CloudKit
+import UIKit
 
 struct ContentView: View {
     @ObservedObject var sleepDataManager: SleepDataManager
     @ObservedObject var recordingManager: RecordingManager
-    @StateObject private var audioPlayer = AudioPlayer()
+    @ObservedObject private var audioPlayer: AudioPlayer
     @State private var showingPermissionAlert = false
     @State private var permissionMessage = ""
     @State private var recentSleepData: [HKCategorySample]?
     @State private var showingTimerSettings = false
     @State private var showingSettings = false
+    @State private var showCloudRecordings = false
+
+init(sleepDataManager: SleepDataManager, recordingManager: RecordingManager) {
+    self.sleepDataManager = sleepDataManager
+    self.recordingManager = recordingManager
+    self._audioPlayer = ObservedObject(wrappedValue: AudioPlayer())
+    }
+
+    // 监测控制按钮
+
+
+    // 监测控制按钮
+    private var monitoringControlButton: some View {
+        Button(action: toggleMonitoring) {
+            Text(recordingManager.isMonitoring ? "停止监测" : "开始睡眠监测")
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(recordingManager.isMonitoring ? Color.red : Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+                .font(.headline)
+        }
+    }
 
     var body: some View {
-        NavigationView {
-            VStack(spacing: 20) {
+          NavigationView {
+              VStack(spacing: 20) {
                 // 录音控制按钮和定时器按钮
                 HStack {
                     monitoringControlButton
@@ -24,13 +48,14 @@ struct ContentView: View {
                         showingTimerSettings.toggle()
                     }) {
                         Image(systemName: "timer")
-                            .font(.title2)
+                            .font(.system(size: 22))
                             .padding(10)
-                            .background(Color.blue.opacity(0.2))
+                            .background(Color(UIColor.systemBlue).opacity(0.2))
                             .clipShape(Circle())
                     }
                     .disabled(recordingManager.isMonitoring || recordingManager.isTimerActive)
                 }
+                
                 
                 // 定时器状态
                 if recordingManager.isTimerActive {
@@ -48,11 +73,12 @@ struct ContentView: View {
                             Text("取消")
                                 .foregroundColor(.red)
                         }
+                        .padding()
+                        .background(Color.orange.opacity(0.1))
+                        .cornerRadius(10)
                     }
-                    .padding()
-                    .background(Color.orange.opacity(0.1))
-                    .cornerRadius(10)
                 }
+                
                 
                 // 声音波形显示（仅在监测时显示）
                 if recordingManager.isMonitoring {
@@ -60,6 +86,7 @@ struct ContentView: View {
                         .frame(height: 200)
                         .padding(.vertical)
                 }
+            
 
                 // 最近检测到的音频片段
                 if !recordingManager.recentSegments.isEmpty {
@@ -67,6 +94,7 @@ struct ContentView: View {
                 } else if !recordingManager.isMonitoring && !recordingManager.isTimerActive {
                     emptyStateView
                 }
+            
 
                 Spacer()
                 
@@ -84,49 +112,25 @@ struct ContentView: View {
                     .cornerRadius(10)
                 }
                 .padding(.bottom)
-            }
-            .padding()
-            .navigationTitle("睡眠声音监测")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: CloudRecordingsView(recordingManager: recordingManager)) {
-                        HStack {
-                            Image(systemName: "icloud")
-                            Text("录音记录")
-                        }
-                    }
-                }
-            }
-            .alert(isPresented: $showingPermissionAlert) {
-                Alert(title: Text("权限不足"), message: Text(permissionMessage), dismissButton: .default(Text("前往设置")) { openSettings() })
-            }
-            .sheet(isPresented: $showingSettings) {
-                SettingsView()
-            }
+        .navigationBarTitle("睡眠声音监测")
+            .navigationBarItems(trailing: Button(action: { showCloudRecordings.toggle() }) { HStack { Image(systemName: "icloud"); Text("录音记录") } })
+            .alert(isPresented: $showingPermissionAlert) { Alert(title: Text("权限不足"), message: Text(permissionMessage), dismissButton: .default(Text("前往设置"), action: openSettings)) }
+            .sheet(isPresented: $showCloudRecordings) { CloudRecordingsView(recordingManager: recordingManager) }
+            .sheet(isPresented: $showingSettings) { SettingsView() }
             .sheet(isPresented: $showingTimerSettings) {
                 VStack {
                     Text("设置延迟启动时间")
-                        .font(.headline)
+                        .font(.system(size: 17, weight: .semibold))
                         .padding()
-                    
                     TimerSettingView(
                         isTimerActive: $recordingManager.isTimerActive,
                         timerDuration: $recordingManager.timerDuration,
                         remainingTime: $recordingManager.remainingTime,
-                        onTimerStart: {
-                            recordingManager.startDelayedMonitoring(duration: recordingManager.timerDuration)
-                            showingTimerSettings = false
-                        },
-                        onTimerCancel: {
-                            recordingManager.cancelDelayedMonitoring()
-                            showingTimerSettings = false
-                        }
+                        onTimerStart: { recordingManager.startDelayedMonitoring(duration: recordingManager.timerDuration); showingTimerSettings = false },
+                        onTimerCancel: { recordingManager.cancelDelayedMonitoring(); showingTimerSettings = false }
                     )
                     .padding()
-                    
-                    Button("关闭") {
-                        showingTimerSettings = false
-                    }
+                    Button("关闭") { showingTimerSettings = false }
                     .padding()
                 }
             }
@@ -136,46 +140,32 @@ struct ContentView: View {
             }
         }
     }
+}
 
-    // 监测控制按钮
-    private var monitoringControlButton: some View {
-        Button(action: toggleMonitoring) {
-            Text(recordingManager.isMonitoring ? "停止监测" : "开始睡眠监测")
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(recordingManager.isMonitoring ? Color.red : Color.blue)
-                .foregroundColor(.white)
-                .cornerRadius(10)
-                .font(.headline)
-        }
-    }
+
+
 
     // 最近片段列表
     private var recentSegmentsList: some View {
         VStack(alignment: .leading) {
             Text("检测到的声音片段")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-
+                .font(.system(size: 15))
+                .foregroundColor(Color(UIColor.secondaryLabel))
             List(recordingManager.recentSegments.sorted(by: { $0.startTime > $1.startTime })) { segment in
                 HStack {
                     Image(systemName: segment.type == .snore ? "waveform.circle.fill" : "mic.circle.fill")
                         .foregroundColor(segment.type == .snore ? .purple : .orange)
-
                     VStack(alignment: .leading, spacing: 4) {
                         Text(segment.type == .snore ? "鼾声" : "梦话")
                             .font(.headline)
                         Text("时间: \(formatDate(segment.startTime))")
-                            .font(.caption)
+                            .font(.system(size: 12))
                             .foregroundColor(.secondary)
                         Text("时长: \(formatDuration(segment.duration))")
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
-
                     Spacer()
-
-                    // 播放按钮
                     Button(action: { playSegment(segment) }) {
                         Image(systemName: audioPlayer.isPlaying && audioPlayer.isPlayingURL(segment.url!) ? "pause.circle.fill" : "play.circle.fill")
                             .foregroundColor(.blue)
@@ -184,14 +174,13 @@ struct ContentView: View {
                 }
                 .padding(.vertical, 8)
             }
-            .listStyle(.plain)
         }
     }
 
     // 空状态视图
     private var emptyStateView: some View {
         VStack(spacing: 10) {
-            Image(systemName: "moon.zzz.fill")
+            Image(systemName: "moon.fill")
                 .font(.system(size: 60))
                 .foregroundColor(.secondary)
             Text("尚未检测到声音片段")
@@ -239,14 +228,14 @@ struct ContentView: View {
 
     // 播放片段
     private func playSegment(_ segment: AudioSegment) {
-        guard let url = segment.url else { return }
-        
-        if audioPlayer.isPlayingURL(url) {
-            // 如果当前正在播放这个片段，则暂停
-            audioPlayer.pauseAudio(for: url)
-        } else {
-            // 如果当前没有播放这个片段，则播放它
-            audioPlayer.playAudio(from: url)
+        if let url = segment.url {
+            if audioPlayer.isPlayingURL(url) {
+                // 如果当前正在播放这个片段，则暂停
+                audioPlayer.pauseAudio(for: url)
+            } else {
+                // 如果当前没有播放这个片段，则播放它
+                audioPlayer.playAudio(from: url)
+            }
         }
     }
 
@@ -274,13 +263,13 @@ struct ContentView: View {
 
 // 预览
 struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        let healthStore = HKHealthStore()
-        let sleepDataManager = SleepDataManager(healthStore: healthStore)
-        let audioRecorder = AudioRecorder()
-        let audioClassifier = AudioClassifier()
-        let recordingManager = RecordingManager(audioRecorder: audioRecorder, audioClassifier: audioClassifier)
+    static let healthStore = HKHealthStore()
+    static let sleepDataManager = SleepDataManager(healthStore: healthStore)
+    static let audioRecorder = AudioRecorder()
+    static let audioClassifier = AudioClassifier()
+    static let recordingManager = RecordingManager(audioRecorder: audioRecorder, audioClassifier: audioClassifier)
 
+    static var previews: some View {
         ContentView(
             sleepDataManager: sleepDataManager,
             recordingManager: recordingManager

@@ -1,28 +1,19 @@
 name: BetterSleep
+options:
+  bundleIdPrefix: com.example
 targets:
   BetterSleep:
     type: application
     platform: iOS
-    deploymentTarget: 15.0
-    sources: [Sources]
-    resources:
-      - Sources/BetterSleep/SoundClassifierModel.mlmodel
-    dependencies:
-      - sdk: HealthKit.framework
-      - sdk: AVFoundation.framework
-      - sdk: CoreML.framework
-      - sdk: Speech.framework
-    bundleId: com.littlegragon.BetterSleep
-    settings:
-      GENERATE_INFOPLIST_FILE: NO
-      INFOPLIST_FILE: Sources/BetterSleep/Info.plist
-      PRODUCT_BUNDLE_IDENTIFIER: com.littlegragon.BetterSleep
-      INFOPLIST_KEY_CFBundleIdentifier: com.littlegragon.BetterSleep
-      INFOPLIST_KEY_CFBundleName: BetterSleep
-      INFOPLIST_KEY_CFBundleShortVersionString: 1.0
-      INFOPLIST_KEY_CFBundleVersion: 1
-      MARKETING_VERSION: 1.0
-      CURRENT_PROJECT_VERSION: 1
-      CODE_SIGN_STYLE: Automatic
-    attributes:
-      ProvisioningStyle: Automatic
+    deploymentTarget: 13.0
+    sources:
+      - Sources/BetterSleep
+    frameworks:
+      - AVFoundation
+      - CoreML
+      - Speech
+      - HealthKit
+      - CoreAudioTypes
+      - SwiftUI
+    infoPlist:
+      path: Sources/BetterSleep/Info.plist

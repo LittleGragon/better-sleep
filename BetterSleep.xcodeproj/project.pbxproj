@@ -7,110 +7,75 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		05D671FECA8BFD3A99C085FC /* CloudRecordingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D79FA7124F637BA26AE4B749 /* CloudRecordingsView.swift */; };
-		098E8363EE43EE81D5495C79 /* RecordingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5554DC0289364052CAEAE1B6 /* RecordingManager.swift */; };
-		1772071E516B827EF687542D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EAB87E5B40AA6F56DF11598 /* ContentView.swift */; };
-		4238ED0CF67E2764C7310526 /* SleepDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1C1885B26E8936D2A34856 /* SleepDataManager.swift */; };
-		55F7C931AEADEF489DAC83DE /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E90BDA0F27BD9139C49240 /* AudioRecorder.swift */; };
-		5776FE3F22A7130573B25ACB /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E32A6F2576E6EDF2E4E5B1 /* Models.swift */; };
-		63E5139E695D08A117FB8F93 /* AudioWaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA263DD89EA73A3F8C8EF99 /* AudioWaveformView.swift */; };
-		6D9040127769A49631978643 /* Speech.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AAB32E2C2C0B713F57BF3B5 /* Speech.framework */; };
-		74B5B209F6373CE3E81ABEF4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0490A817CF775C8CA48DBF5 /* SettingsView.swift */; };
-		793138E4929B022E92715351 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF204C0E96FA7BF1B2868180 /* CloudManager.swift */; };
-		95C01A7167C780EAA7B346BF /* TimerSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC0C8D5DDC063316261DEAC /* TimerSettingView.swift */; };
-		ACC07F3A18864CEF7F3A86E1 /* SleepApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BFA6CA4329E3B3014CD1606 /* SleepApp.swift */; };
-		B7537DBBF532F7B1FA3FAC66 /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFFDF06AAEDD79EF289E36AC /* CoreML.framework */; };
-		B7FF64204F48CBA9295E44AE /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D724097BE2F37E048633762 /* AudioPlayer.swift */; };
-		B94665BC68D8163E925894D6 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8166F7A0927109086349FCF1 /* HealthKit.framework */; };
-		BB2FFFC5C33C5C548CB0C372 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A4BE59A4C25650936F21083 /* AVFoundation.framework */; };
-		BDD73BAA130200CB1DD3E2D6 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAFE8293EEBC828F756C261 /* UserSettings.swift */; };
-		E3765447444B6EA62DAA33BC /* AudioClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92A6DEE76DDF28112FE8DADA /* AudioClassifier.swift */; };
+		1045648DAF1E1BD00B389F0E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BF4806E74EAB760A4E9EC5F /* ContentView.swift */; };
+		112E398CDCC20117A2ECB424 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B2BBFDA91BF4474FA5208D /* Models.swift */; };
+		3682909166CF9358F2DB7786 /* TimerSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975A996DB43A6FF566DCBB85 /* TimerSettingView.swift */; };
+		5B7E0426D7D20E4C5440EC7F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B41C292C9FDCFD551269F20 /* AppDelegate.swift */; };
+		70CBEE3B832F49BE1622B9C4 /* CloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A3A7871D254E5C49A695BE /* CloudManager.swift */; };
+		799CA9A1A3C4582DDB18B500 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16029384597995803E416A9C /* main.swift */; };
+		82E55C63023AA3599194AF82 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D602DD613D9B7EEBC95D5CD /* UserSettings.swift */; };
+		8E27FE5DE3E2230FB65E7B32 /* AudioClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B1B8B6A23B95912E95A889 /* AudioClassifier.swift */; };
+		8ED82D1DFD3BFD6F4E43E7D6 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B22380F6F6C89DF608EF5D3 /* SettingsView.swift */; };
+		A2CB0993128D004941CA37B5 /* AudioSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72D719132E807D9D9C3BD0F9 /* AudioSegment.swift */; };
+		B237DDE960794D166F5E9FC2 /* SleepDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54EEA1ED109B5B5B27B628AF /* SleepDataManager.swift */; };
+		BBAB7117EF18640FE6614A7F /* CloudRecordingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3C5C421B3EB7D9C47DB751 /* CloudRecordingsView.swift */; };
+		CF5CC62C6F7142ADFBA3A191 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD033D56B9BA48F831BAD027 /* AudioPlayer.swift */; };
+		DC77EEF903205EA1F19362FC /* AudioWaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E595B07879BDA1DCD58DE7E /* AudioWaveformView.swift */; };
+		DEA3654C041C49FD1341E2DB /* RecordingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4B8E471CA9AC8CC81A6C8A /* RecordingManager.swift */; };
+		EAD27D9D901A2C36A9BA5105 /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0420BA085503FD094C25C7 /* AudioRecorder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0EAB87E5B40AA6F56DF11598 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		1AA263DD89EA73A3F8C8EF99 /* AudioWaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioWaveformView.swift; sourceTree = "<group>"; };
-		1BFA6CA4329E3B3014CD1606 /* SleepApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepApp.swift; sourceTree = "<group>"; };
-		34E32A6F2576E6EDF2E4E5B1 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
-		4AAB32E2C2C0B713F57BF3B5 /* Speech.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Speech.framework; path = System/Library/Frameworks/Speech.framework; sourceTree = SDKROOT; };
-		5554DC0289364052CAEAE1B6 /* RecordingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingManager.swift; sourceTree = "<group>"; };
-		5A4BE59A4C25650936F21083 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		0D4B8E471CA9AC8CC81A6C8A /* RecordingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingManager.swift; sourceTree = "<group>"; };
+		16029384597995803E416A9C /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		4B41C292C9FDCFD551269F20 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4BF4806E74EAB760A4E9EC5F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		54EEA1ED109B5B5B27B628AF /* SleepDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepDataManager.swift; sourceTree = "<group>"; };
+		61C45C1B945A447AD2CF4F80 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		63F17908E393C9E039F944BC /* BetterSleep.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BetterSleep.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6D724097BE2F37E048633762 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
-		8166F7A0927109086349FCF1 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
-		82530F9B8EB1E274F62B18F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		92A6DEE76DDF28112FE8DADA /* AudioClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioClassifier.swift; sourceTree = "<group>"; };
-		A0490A817CF775C8CA48DBF5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		A4E90BDA0F27BD9139C49240 /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
-		BAAFE8293EEBC828F756C261 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
-		BC1C1885B26E8936D2A34856 /* SleepDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepDataManager.swift; sourceTree = "<group>"; };
-		CF204C0E96FA7BF1B2868180 /* CloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudManager.swift; sourceTree = "<group>"; };
-		D79FA7124F637BA26AE4B749 /* CloudRecordingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudRecordingsView.swift; sourceTree = "<group>"; };
-		DCC0C8D5DDC063316261DEAC /* TimerSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerSettingView.swift; sourceTree = "<group>"; };
-		DFFDF06AAEDD79EF289E36AC /* CoreML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreML.framework; path = System/Library/Frameworks/CoreML.framework; sourceTree = SDKROOT; };
+		72D719132E807D9D9C3BD0F9 /* AudioSegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioSegment.swift; sourceTree = "<group>"; };
+		7D602DD613D9B7EEBC95D5CD /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
+		7E595B07879BDA1DCD58DE7E /* AudioWaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioWaveformView.swift; sourceTree = "<group>"; };
+		83B1B8B6A23B95912E95A889 /* AudioClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioClassifier.swift; sourceTree = "<group>"; };
+		8B22380F6F6C89DF608EF5D3 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		975A996DB43A6FF566DCBB85 /* TimerSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerSettingView.swift; sourceTree = "<group>"; };
+		AD033D56B9BA48F831BAD027 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
+		AE3C5C421B3EB7D9C47DB751 /* CloudRecordingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudRecordingsView.swift; sourceTree = "<group>"; };
+		B6A3A7871D254E5C49A695BE /* CloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudManager.swift; sourceTree = "<group>"; };
+		B8B2BBFDA91BF4474FA5208D /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		DF0420BA085503FD094C25C7 /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFrameworksBuildPhase section */
-		EBD7FE9D1DE4FE9D43837C02 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B94665BC68D8163E925894D6 /* HealthKit.framework in Frameworks */,
-				BB2FFFC5C33C5C548CB0C372 /* AVFoundation.framework in Frameworks */,
-				B7537DBBF532F7B1FA3FAC66 /* CoreML.framework in Frameworks */,
-				6D9040127769A49631978643 /* Speech.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
-
 /* Begin PBXGroup section */
-		4311824E932A928174280993 /* Sources */ = {
+		14A48E46A1C52ACBE015E6B3 /* BetterSleep */ = {
 			isa = PBXGroup;
 			children = (
-				8202E31528627C76D5627A50 /* BetterSleep */,
+				4B41C292C9FDCFD551269F20 /* AppDelegate.swift */,
+				83B1B8B6A23B95912E95A889 /* AudioClassifier.swift */,
+				AD033D56B9BA48F831BAD027 /* AudioPlayer.swift */,
+				DF0420BA085503FD094C25C7 /* AudioRecorder.swift */,
+				72D719132E807D9D9C3BD0F9 /* AudioSegment.swift */,
+				7E595B07879BDA1DCD58DE7E /* AudioWaveformView.swift */,
+				B6A3A7871D254E5C49A695BE /* CloudManager.swift */,
+				AE3C5C421B3EB7D9C47DB751 /* CloudRecordingsView.swift */,
+				4BF4806E74EAB760A4E9EC5F /* ContentView.swift */,
+				61C45C1B945A447AD2CF4F80 /* Info.plist */,
+				16029384597995803E416A9C /* main.swift */,
+				B8B2BBFDA91BF4474FA5208D /* Models.swift */,
+				0D4B8E471CA9AC8CC81A6C8A /* RecordingManager.swift */,
+				8B22380F6F6C89DF608EF5D3 /* SettingsView.swift */,
+				54EEA1ED109B5B5B27B628AF /* SleepDataManager.swift */,
+				975A996DB43A6FF566DCBB85 /* TimerSettingView.swift */,
+				7D602DD613D9B7EEBC95D5CD /* UserSettings.swift */,
 			);
-			path = Sources;
-			sourceTree = "<group>";
-		};
-		8202E31528627C76D5627A50 /* BetterSleep */ = {
-			isa = PBXGroup;
-			children = (
-				92A6DEE76DDF28112FE8DADA /* AudioClassifier.swift */,
-				6D724097BE2F37E048633762 /* AudioPlayer.swift */,
-				A4E90BDA0F27BD9139C49240 /* AudioRecorder.swift */,
-				1AA263DD89EA73A3F8C8EF99 /* AudioWaveformView.swift */,
-				CF204C0E96FA7BF1B2868180 /* CloudManager.swift */,
-				D79FA7124F637BA26AE4B749 /* CloudRecordingsView.swift */,
-				0EAB87E5B40AA6F56DF11598 /* ContentView.swift */,
-				82530F9B8EB1E274F62B18F5 /* Info.plist */,
-				34E32A6F2576E6EDF2E4E5B1 /* Models.swift */,
-				5554DC0289364052CAEAE1B6 /* RecordingManager.swift */,
-				A0490A817CF775C8CA48DBF5 /* SettingsView.swift */,
-				1BFA6CA4329E3B3014CD1606 /* SleepApp.swift */,
-				BC1C1885B26E8936D2A34856 /* SleepDataManager.swift */,
-				DCC0C8D5DDC063316261DEAC /* TimerSettingView.swift */,
-				BAAFE8293EEBC828F756C261 /* UserSettings.swift */,
-			);
-			path = BetterSleep;
-			sourceTree = "<group>";
-		};
-		A61B248B233F03A7774ACCEB /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				5A4BE59A4C25650936F21083 /* AVFoundation.framework */,
-				DFFDF06AAEDD79EF289E36AC /* CoreML.framework */,
-				8166F7A0927109086349FCF1 /* HealthKit.framework */,
-				4AAB32E2C2C0B713F57BF3B5 /* Speech.framework */,
-			);
-			name = Frameworks;
+			name = BetterSleep;
+			path = Sources/BetterSleep;
 			sourceTree = "<group>";
 		};
 		BDF33B108D64EDDF147A854A = {
 			isa = PBXGroup;
 			children = (
-				4311824E932A928174280993 /* Sources */,
-				A61B248B233F03A7774ACCEB /* Frameworks */,
+				14A48E46A1C52ACBE015E6B3 /* BetterSleep */,
 				E72B3F459CE3CA510147DD80 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -131,7 +96,6 @@
 			buildConfigurationList = 69C57F183AFF5C0F5ED0DC8F /* Build configuration list for PBXNativeTarget "BetterSleep" */;
 			buildPhases = (
 				9B3C2D9ECA225DBD6490DFDC /* Sources */,
-				EBD7FE9D1DE4FE9D43837C02 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -152,11 +116,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
-				TargetAttributes = {
-					60AB8EFB11AA85AB3BA7E171 = {
-						ProvisioningStyle = Automatic;
-					};
-				};
 			};
 			buildConfigurationList = 769DABAC397494293752D121 /* Build configuration list for PBXProject "BetterSleep" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -181,20 +140,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3765447444B6EA62DAA33BC /* AudioClassifier.swift in Sources */,
-				B7FF64204F48CBA9295E44AE /* AudioPlayer.swift in Sources */,
-				55F7C931AEADEF489DAC83DE /* AudioRecorder.swift in Sources */,
-				63E5139E695D08A117FB8F93 /* AudioWaveformView.swift in Sources */,
-				793138E4929B022E92715351 /* CloudManager.swift in Sources */,
-				05D671FECA8BFD3A99C085FC /* CloudRecordingsView.swift in Sources */,
-				1772071E516B827EF687542D /* ContentView.swift in Sources */,
-				5776FE3F22A7130573B25ACB /* Models.swift in Sources */,
-				098E8363EE43EE81D5495C79 /* RecordingManager.swift in Sources */,
-				74B5B209F6373CE3E81ABEF4 /* SettingsView.swift in Sources */,
-				ACC07F3A18864CEF7F3A86E1 /* SleepApp.swift in Sources */,
-				4238ED0CF67E2764C7310526 /* SleepDataManager.swift in Sources */,
-				95C01A7167C780EAA7B346BF /* TimerSettingView.swift in Sources */,
-				BDD73BAA130200CB1DD3E2D6 /* UserSettings.swift in Sources */,
+				5B7E0426D7D20E4C5440EC7F /* AppDelegate.swift in Sources */,
+				8E27FE5DE3E2230FB65E7B32 /* AudioClassifier.swift in Sources */,
+				CF5CC62C6F7142ADFBA3A191 /* AudioPlayer.swift in Sources */,
+				EAD27D9D901A2C36A9BA5105 /* AudioRecorder.swift in Sources */,
+				A2CB0993128D004941CA37B5 /* AudioSegment.swift in Sources */,
+				DC77EEF903205EA1F19362FC /* AudioWaveformView.swift in Sources */,
+				70CBEE3B832F49BE1622B9C4 /* CloudManager.swift in Sources */,
+				BBAB7117EF18640FE6614A7F /* CloudRecordingsView.swift in Sources */,
+				1045648DAF1E1BD00B389F0E /* ContentView.swift in Sources */,
+				112E398CDCC20117A2ECB424 /* Models.swift in Sources */,
+				DEA3654C041C49FD1341E2DB /* RecordingManager.swift in Sources */,
+				8ED82D1DFD3BFD6F4E43E7D6 /* SettingsView.swift in Sources */,
+				B237DDE960794D166F5E9FC2 /* SleepDataManager.swift in Sources */,
+				3682909166CF9358F2DB7786 /* TimerSettingView.swift in Sources */,
+				82E55C63023AA3599194AF82 /* UserSettings.swift in Sources */,
+				799CA9A1A3C4582DDB18B500 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,22 +284,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = X3DMQ35L3N;
-				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Sources/BetterSleep/Info.plist;
-				INFOPLIST_KEY_CFBundleIdentifier = com.littlegragon.BetterSleep;
-				INFOPLIST_KEY_CFBundleName = BetterSleep;
-				INFOPLIST_KEY_CFBundleShortVersionString = 1.0;
-				INFOPLIST_KEY_CFBundleVersion = 1;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.littlegragon.BetterSleep;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.BetterSleep;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -349,22 +302,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = X3DMQ35L3N;
-				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Sources/BetterSleep/Info.plist;
-				INFOPLIST_KEY_CFBundleIdentifier = com.littlegragon.BetterSleep;
-				INFOPLIST_KEY_CFBundleName = BetterSleep;
-				INFOPLIST_KEY_CFBundleShortVersionString = 1.0;
-				INFOPLIST_KEY_CFBundleVersion = 1;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.littlegragon.BetterSleep;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.BetterSleep;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

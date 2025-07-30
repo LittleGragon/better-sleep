@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 // 音频片段类型枚举
 enum AudioSegmentType: String, CaseIterable {
