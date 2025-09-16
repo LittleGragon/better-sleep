@@ -3,6 +3,10 @@ import HealthKit
 import AVFoundation
 import CloudKit
 import UIKit
+import AudioToolbox
+import Combine
+
+
 
 struct ContentView: View {
     @ObservedObject var sleepDataManager: SleepDataManager
@@ -113,7 +117,32 @@ init(sleepDataManager: SleepDataManager, recordingManager: RecordingManager) {
                 }
                 .padding(.bottom)
         .navigationBarTitle("睡眠声音监测")
-            .navigationBarItems(trailing: Button(action: { showCloudRecordings.toggle() }) { HStack { Image(systemName: "icloud"); Text("录音记录") } })
+            .navigationBarItems(trailing: 
+                HStack {
+                    Button(action: { showCloudRecordings.toggle() }) { 
+                        HStack { 
+                            Image(systemName: "icloud")
+                            Text("录音记录") 
+                        } 
+                    }
+                    
+                    Button(action: {
+                        // 模态显示AudioSegmentsView
+                        let hostingController = UIHostingController(rootView: AudioSegmentsView())
+                        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                           let window = scene.windows.first,
+                           let root = window.rootViewController {
+                            var topController = root
+                            while let presented = topController.presentedViewController {
+                                topController = presented
+                            }
+                            topController.present(hostingController, animated: true)
+                        }
+                    }) {
+                        Image(systemName: "waveform.path.ecg")
+                    }
+                }
+            )
             .alert(isPresented: $showingPermissionAlert) { Alert(title: Text("权限不足"), message: Text(permissionMessage), dismissButton: .default(Text("前往设置"), action: openSettings)) }
             .sheet(isPresented: $showCloudRecordings) { CloudRecordingsView(recordingManager: recordingManager) }
             .sheet(isPresented: $showingSettings) { SettingsView() }

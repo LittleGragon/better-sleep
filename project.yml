@@ -1,19 +1,36 @@
 name: BetterSleep
+
 options:
-  bundleIdPrefix: com.example
+  deploymentTarget:
+    iOS: "15.0"
+
 targets:
   BetterSleep:
     type: application
     platform: iOS
-    deploymentTarget: 13.0
     sources:
-      - Sources/BetterSleep
-    frameworks:
-      - AVFoundation
-      - CoreML
-      - Speech
-      - HealthKit
-      - CoreAudioTypes
-      - SwiftUI
-    infoPlist:
+      - path: Sources/BetterSleep
+      - path: Snoring.mlproj/Models
+    info:
       path: Sources/BetterSleep/Info.plist
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.littlegragon.BetterSleep.dev
+        SWIFT_VERSION: 5.0
+        CODE_SIGN_STYLE: Automatic
+        ENABLE_BITCODE: NO
+        IPHONEOS_DEPLOYMENT_TARGET: "15.0"
+        DEVELOPMENT_TEAM: TZ2LHMQJM3
+    dependencies:
+      - sdk: SoundAnalysis.framework
+      - sdk: CoreML.framework
+      - sdk: Speech.framework
+      - sdk: AVFoundation.framework
+      - sdk: Accelerate.framework
+      - sdk: AudioToolbox.framework
+      - sdk: CoreAudio.framework
+    capabilities:
+      - backgroundModes:
+          modes: [audio, processing]
+    scheme:
+      testTargets: []

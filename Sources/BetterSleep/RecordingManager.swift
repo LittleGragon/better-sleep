@@ -47,6 +47,9 @@ class RecordingManager: NSObject, ObservableObject {
         self.isStorageAvailable = true
         self.storageType = "本地存储"
 
+        // 初始化AudioSegmentManager
+        _ = AudioSegmentManager.shared
+
         // 加载录音文件
         if UserSettings.shared.isRecordingStorageEnabled {
             loadRecordings()
@@ -72,7 +75,6 @@ class RecordingManager: NSObject, ObservableObject {
             return
         }
         
-
         
         // 加载本地录音文件
 do {
@@ -82,6 +84,36 @@ do {
 } catch {
     DispatchQueue.main.async { print("加载录音失败: \(error.localizedDescription)") }
 }
+    }
+    
+    // 加载按日期组织的声音片段
+    func loadAudioSegments() -> [Date: [AudioSegment]] {
+        var allSegments: [Date: [AudioSegment]] = [:]
+        let availableDates = AudioSegmentManager.shared.getAvailableDatesSync()
+        
+        for date in availableDates {
+            let segments = AudioSegmentManager.shared.getSegmentsSync(for: date)
+            if !segments.isEmpty {
+                allSegments[date] = segments
+            }
+        }
+        
+        return allSegments
+    }
+    
+    // 获取可用日期列表
+    func getAvailableDates() -> [Date] {
+        return AudioSegmentManager.shared.getAvailableDatesSync()
+    }
+    
+    // 获取指定日期的声音片段
+    func getSegments(for date: Date) -> [AudioSegment] {
+        return AudioSegmentManager.shared.getSegmentsSync(for: date)
+    }
+    
+    // 删除指定日期的所有声音片段
+    func deleteSegments(for date: Date) -> Bool {
+        return AudioSegmentManager.shared.deleteSegmentsSync(for: date)
     }
 
     // 开始睡眠监测（录音+分析）
@@ -212,7 +244,7 @@ do {
 
     // 分析最近的音频片段
     private func analyzeRecentAudio() {
-        guard let startTime = recordingStartTime else { return }
+        guard recordingStartTime != nil else { return }
 
         let segment = AudioSegment(
             url: audioRecorder.currentRecordingURL,
@@ -226,13 +258,10 @@ do {
             [weak self] classifiedSegment in
             guard let self = self else { return }
             
-            // 即使没有分类结果，也打印日志
-            if classifiedSegment == nil {
+            guard let classifiedSegment = classifiedSegment else {
                 print("音频分类失败，未返回结果")
                 return
             }
-            
-            guard let classifiedSegment = classifiedSegment else { return }
             
             // 打印分类结果
             print("音频分类结果: \(classifiedSegment.type.rawValue)")
@@ -243,6 +272,17 @@ do {
                 DispatchQueue.main.async {
                     self.recentSegments.append(classifiedSegment)
                     print("添加了新的声音片段: \(classifiedSegment.type.rawValue)")
+                }
+                
+                // 保存音频片段到按日期组织的目录
+                if let url = classifiedSegment.url {
+                    AudioSegmentManager.shared.saveSegment(classifiedSegment, from: url) { success, savedURL in
+                        if success {
+                            print("音频片段已保存到: \(String(describing: savedURL))")
+                        } else {
+                            print("保存音频片段失败")
+                        }
+                    }
                 }
             } else {
                 print("声音类型为未知，不添加到片段列表")
@@ -271,14 +311,7 @@ do {
             return
         }
         
-        // 本地存储不需要权限检查
-        let isAvailable = true
-        let storageType = "本地存储"
-        guard isAvailable else {
-            print("存储不可用，无法保存录音")
-            return
-        }
-        
+        // 本地存储不需要权限检查（无权限检查逻辑，直接保存）
         DispatchQueue.main.async {
             self.isSavingToStorage = true
         }

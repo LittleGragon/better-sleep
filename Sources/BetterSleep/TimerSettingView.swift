@@ -24,7 +24,7 @@ struct TimerSettingView: View {
                             .trim(from: 0, to: CGFloat(remainingTime / timerDuration))
                             .stroke(Color(UIColor.systemBlue), lineWidth: 10)
                             .rotationEffect(.degrees(-90))
-                            .animation(.linear(duration: 1))
+                            .animation(.linear(duration: 1), value: remainingTime)
                         Text(timeString(from: remainingTime))
                             .font(.system(size: 40, weight: .bold))
                             
