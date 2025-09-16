@@ -3,11 +3,18 @@ import AVFoundation
 import UIKit
 import BackgroundTasks
 import UserNotifications
+import Combine
 
 class RecordingManager: NSObject, ObservableObject {
     private let audioRecorder: AudioRecorder
     private let audioClassifier: AudioClassifier
-    private let cloudManager = CloudManager.shared
+
+    @Published var timerDuration: TimeInterval = 0
+    @Published var remainingTime: TimeInterval = 0
+    @Published var recordings: [URL] = [] // 存储录音文件
+    @Published var isStorageAvailable: Bool = false // 存储是否可用
+    @Published var isSavingToStorage: Bool = false // 是否正在保存
+    @Published var storageType: String = "本地存储" // 当前存储类型
     private var analysisTimer: Timer?
     private var recordedSegments: [AudioSegment] = []
     private var currentRecordingURL: URL?
@@ -20,31 +27,34 @@ class RecordingManager: NSObject, ObservableObject {
     @Published var currentDecibels: Float = 0.0
     @Published var audioLevels: [Float] = Array(repeating: 0, count: 30) // 存储最近的音频电平
     @Published var isTimerActive: Bool = false
-    @Published var timerDuration: TimeInterval = 0
-    @Published var remainingTime: TimeInterval = 0
-    @Published var recordings: [URL] = [] // 存储录音文件
-    @Published var isStorageAvailable: Bool = false // 存储是否可用
-    @Published var isSavingToStorage: Bool = false // 是否正在保存
-    @Published var storageType: String = "本地存储" // 当前存储类型
+    
+    // 本地文件存储路径
+    private let recordingsDirectory: URL = {
+        let documentsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let dir = documentsDir.appendingPathComponent("Recordings")
+        if !FileManager.default.fileExists(atPath: dir.path) {
+            try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        }
+        return dir
+    }()
 
-    init(audioRecorder: AudioRecorder, audioClassifier: AudioClassifier) {
+    init(audioRecorder: AudioRecorder = AudioRecorder(), audioClassifier: AudioClassifier = AudioClassifier()) {
         self.audioRecorder = audioRecorder
         self.audioClassifier = audioClassifier
         super.init()
-        
-        // 检查存储是否可用
-        let permissions = cloudManager.checkStoragePermissions()
-        isStorageAvailable = permissions.isAvailable
-        storageType = permissions.storageType
-        
-        // 暂时注释掉 iCloud 状态监听
-        // cloudManager.startMonitoringCloudChanges()
-        
+
+        // 初始化存储状态
+        self.isStorageAvailable = true
+        self.storageType = "本地存储"
+
+        // 初始化AudioSegmentManager
+        _ = AudioSegmentManager.shared
+
         // 加载录音文件
         if UserSettings.shared.isRecordingStorageEnabled {
             loadRecordings()
         }
-        
+
         // 监听设置变更通知
         NotificationCenter.default.addObserver(
             self,
@@ -52,31 +62,7 @@ class RecordingManager: NSObject, ObservableObject {
             name: NSNotification.Name("SettingsChanged"),
             object: nil
         )
-        
-        // 暂时注释掉 iCloud 通知监听
-        // NotificationCenter.default.addObserver(
-        //     self,
-        //     selector: #selector(ubiquityIdentityDidChange),
-        //     name: NSNotification.Name.NSUbiquityIdentityDidChange,
-        //     object: nil
-        // )
     }
-    
-    // 暂时注释掉 iCloud 状态变化处理
-    /*
-    // 存储状态变化
-    @objc private func ubiquityIdentityDidChange(_ notification: Notification) {
-        let permissions = cloudManager.checkStoragePermissions()
-        isStorageAvailable = permissions.isAvailable
-        storageType = permissions.storageType
-        
-        if permissions.isAvailable {
-            loadRecordings()
-        } else {
-            recordings = []
-        }
-    }
-    */
     
     // 加载录音文件
     func loadRecordings() {
@@ -89,29 +75,45 @@ class RecordingManager: NSObject, ObservableObject {
             return
         }
         
-        let permissions = cloudManager.checkStoragePermissions()
-        guard permissions.isAvailable else {
-            DispatchQueue.main.async {
-                self.isStorageAvailable = false
-                self.recordings = []
-                print("存储权限检查失败: \(permissions.errorMessage ?? "未知错误")")
+        
+        // 加载本地录音文件
+do {
+    let fileURLs = try FileManager.default.contentsOfDirectory(at: recordingsDirectory, includingPropertiesForKeys: nil)
+    let sortedURLs = fileURLs.filter { $0.pathExtension == "m4a" }.sorted(by: { $0.lastPathComponent > $1.lastPathComponent })
+    DispatchQueue.main.async { self.recordings = sortedURLs }
+} catch {
+    DispatchQueue.main.async { print("加载录音失败: \(error.localizedDescription)") }
+}
+    }
+    
+    // 加载按日期组织的声音片段
+    func loadAudioSegments() -> [Date: [AudioSegment]] {
+        var allSegments: [Date: [AudioSegment]] = [:]
+        let availableDates = AudioSegmentManager.shared.getAvailableDatesSync()
+        
+        for date in availableDates {
+            let segments = AudioSegmentManager.shared.getSegmentsSync(for: date)
+            if !segments.isEmpty {
+                allSegments[date] = segments
             }
-            return
         }
         
-        cloudManager.getAllRecordings { [weak self] urls, error in
-            guard let self = self else { return }
-            
-            DispatchQueue.main.async {
-                if let urls = urls {
-                    self.recordings = urls
-                    self.isStorageAvailable = true
-                } else {
-                    self.recordings = []
-                    print("获取录音失败: \(error?.localizedDescription ?? "未知错误")")
-                }
-            }
-        }
+        return allSegments
+    }
+    
+    // 获取可用日期列表
+    func getAvailableDates() -> [Date] {
+        return AudioSegmentManager.shared.getAvailableDatesSync()
+    }
+    
+    // 获取指定日期的声音片段
+    func getSegments(for date: Date) -> [AudioSegment] {
+        return AudioSegmentManager.shared.getSegmentsSync(for: date)
+    }
+    
+    // 删除指定日期的所有声音片段
+    func deleteSegments(for date: Date) -> Bool {
+        return AudioSegmentManager.shared.deleteSegmentsSync(for: date)
     }
 
     // 开始睡眠监测（录音+分析）
@@ -242,7 +244,7 @@ class RecordingManager: NSObject, ObservableObject {
 
     // 分析最近的音频片段
     private func analyzeRecentAudio() {
-        guard let startTime = recordingStartTime else { return }
+        guard recordingStartTime != nil else { return }
 
         let segment = AudioSegment(
             url: audioRecorder.currentRecordingURL,
@@ -256,13 +258,10 @@ class RecordingManager: NSObject, ObservableObject {
             [weak self] classifiedSegment in
             guard let self = self else { return }
             
-            // 即使没有分类结果，也打印日志
-            if classifiedSegment == nil {
+            guard let classifiedSegment = classifiedSegment else {
                 print("音频分类失败，未返回结果")
                 return
             }
-            
-            guard let classifiedSegment = classifiedSegment else { return }
             
             // 打印分类结果
             print("音频分类结果: \(classifiedSegment.type.rawValue)")
@@ -273,6 +272,17 @@ class RecordingManager: NSObject, ObservableObject {
                 DispatchQueue.main.async {
                     self.recentSegments.append(classifiedSegment)
                     print("添加了新的声音片段: \(classifiedSegment.type.rawValue)")
+                }
+                
+                // 保存音频片段到按日期组织的目录
+                if let url = classifiedSegment.url {
+                    AudioSegmentManager.shared.saveSegment(classifiedSegment, from: url) { success, savedURL in
+                        if success {
+                            print("音频片段已保存到: \(String(describing: savedURL))")
+                        } else {
+                            print("保存音频片段失败")
+                        }
+                    }
                 }
             } else {
                 print("声音类型为未知，不添加到片段列表")
@@ -301,67 +311,48 @@ class RecordingManager: NSObject, ObservableObject {
             return
         }
         
-        let permissions = cloudManager.checkStoragePermissions()
-        guard permissions.isAvailable else {
-            print("存储不可用，无法保存录音: \(permissions.errorMessage ?? "未知错误")")
-            return
-        }
-        
+        // 本地存储不需要权限检查（无权限检查逻辑，直接保存）
         DispatchQueue.main.async {
             self.isSavingToStorage = true
         }
         
-        cloudManager.saveRecordingToStorage(localURL: url) { [weak self] storageURL, error in
-            guard let self = self else { return }
-            
+        // 保存到本地存储
+let fileName = UUID().uuidString + ".m4a"
+let destinationURL = recordingsDirectory.appendingPathComponent(fileName)
+
+do {
+    try FileManager.default.copyItem(at: url, to: destinationURL)
+    DispatchQueue.main.async { self.loadRecordings() }
+} catch {
+    DispatchQueue.main.async { print("保存录音失败: \(error.localizedDescription)") }
+}
             DispatchQueue.main.async {
                 self.isSavingToStorage = false
-                
-                if let storageURL = storageURL {
-                    print("录音已成功保存到\(permissions.storageType): \(storageURL.path)")
-                    // 延迟3秒后刷新录音列表，确保同步完成
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                        self.loadRecordings()
-                    }
-                    // 发送保存成功通知
-                    NotificationCenter.default.post(name: .recordingSavedSuccessfully, object: nil)
-                } else {
-                    let errorMessage: String
-                    if let error = error {
-                        if error.localizedDescription.contains("无法访问") {
-                            errorMessage = "存储访问被拒绝，请检查存储设置"
-                        } else {
-                            errorMessage = error.localizedDescription
-                        }
-                    } else {
-                        errorMessage = "未知错误"
-                    }
-                    print("保存录音失败: \(errorMessage)")
-                    // 发送保存失败通知
-                    NotificationCenter.default.post(name: .recordingSaveFailed, object: errorMessage)
+                print("录音已成功保存到本地存储")
+                // 延迟3秒后刷新录音列表
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    self.loadRecordings()
                 }
+                // 发送保存成功通知
+                NotificationCenter.default.post(name: .recordingSavedSuccessfully, object: nil)
             }
-        }
     }
     
     // 删除录音
     func deleteRecording(url: URL, completion: @escaping (Bool) -> Void) {
-        cloudManager.deleteRecording(url: url) { [weak self] success, error in
-            guard let self = self else { return }
-            
-            if success {
-                // 从列表中移除
-                DispatchQueue.main.async {
-                    self.recordings.removeAll { $0.path == url.path }
-                }
-                completion(true)
-            } else {
-                print("删除录音失败: \(error?.localizedDescription ?? "未知错误")")
-                completion(false)
-            }
-        }
+        // 从本地存储删除录音
+do {
+    try FileManager.default.removeItem(at: url)
+    // 从列表中移除
+    DispatchQueue.main.async {
+        self.recordings.removeAll { $0.path == url.path }
     }
-    
+    completion(true)
+} catch {
+    print("删除录音失败: \(error.localizedDescription)")
+    completion(false)
+}
+}
     // 启动定时器
     func startDelayedMonitoring(duration: TimeInterval) {
         // 取消之前的定时器
@@ -398,9 +389,8 @@ class RecordingManager: NSObject, ObservableObject {
         
         // 注册本地通知，以防应用被系统终止
         scheduleTimerCompletionNotification(duration: duration)
-    }
-    
-    // 取消定时器
+}
+// 取消定时器
     func cancelDelayedMonitoring() {
         delayTimer?.invalidate()
         delayTimer = nil

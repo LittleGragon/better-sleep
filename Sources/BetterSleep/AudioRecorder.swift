@@ -1,4 +1,5 @@
 import AVFoundation
+import AVFAudio
 
 class AudioRecorder: NSObject, AVAudioRecorderDelegate {
     var audioRecorder: AVAudioRecorder?
@@ -22,12 +23,24 @@ class AudioRecorder: NSObject, AVAudioRecorderDelegate {
                                                   selector: #selector(handleInterruption), 
                                                   name: AVAudioSession.interruptionNotification, 
                                                   object: recordingSession)
-            recordingSession.requestRecordPermission { [unowned self] allowed in
-                DispatchQueue.main.async {
-                    if allowed {
-                        print("麦克风权限已授予")
-                    } else {
-                        print("麦克风权限被拒绝")
+            if #available(iOS 17.0, *) {
+                AVAudioApplication.requestRecordPermission { allowed in
+                    DispatchQueue.main.async {
+                        if allowed {
+                            print("麦克风权限已授予")
+                        } else {
+                            print("麦克风权限被拒绝")
+                        }
+                    }
+                }
+            } else {
+                recordingSession.requestRecordPermission { allowed in
+                    DispatchQueue.main.async {
+                        if allowed {
+                            print("麦克风权限已授予")
+                        } else {
+                            print("麦克风权限被拒绝")
+                        }
                     }
                 }
             }
@@ -38,9 +51,17 @@ class AudioRecorder: NSObject, AVAudioRecorderDelegate {
 
     // 请求录音权限
     func requestRecordingPermissions(completion: @escaping (Bool) -> Void = { _ in }) {
-        recordingSession.requestRecordPermission { allowed in
-            DispatchQueue.main.async {
-                completion(allowed)
+        if #available(iOS 17.0, *) {
+            AVAudioApplication.requestRecordPermission { allowed in
+                DispatchQueue.main.async {
+                    completion(allowed)
+                }
+            }
+        } else {
+            recordingSession.requestRecordPermission { allowed in
+                DispatchQueue.main.async {
+                    completion(allowed)
+                }
             }
         }
     }

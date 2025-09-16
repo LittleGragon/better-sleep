@@ -6,15 +6,16 @@ struct SettingsView: View {
     
     var body: some View {
         NavigationView {
-            Form {
+    Form {
                 Section(header: Text("录音设置")) {
-                    Toggle("保存录音文件", isOn: $isRecordingStorageEnabled)
-                        .onChange(of: isRecordingStorageEnabled) { newValue in
-                            UserSettings.shared.isRecordingStorageEnabled = newValue
-                            
-                            // 通知其他视图设置已更改
-                            NotificationCenter.default.post(name: NSNotification.Name("SettingsChanged"), object: nil)
-                        }
+                    Toggle("保存录音文件", isOn: Binding(
+            get: { isRecordingStorageEnabled },
+            set: { newValue in
+                isRecordingStorageEnabled = newValue
+                UserSettings.shared.isRecordingStorageEnabled = newValue
+                NotificationCenter.default.post(name: NSNotification.Name("SettingsChanged"), object: nil)
+            }
+        ))
                 }
                 
                 Section(header: Text("关于"), footer: Text("录音文件将保存在本地存储中，您可以随时在设置中关闭此功能。")) {
@@ -26,7 +27,7 @@ struct SettingsView: View {
                     }
                 }
             }
-            .navigationTitle("设置")
+            .navigationBarTitle("设置")
             .navigationBarItems(trailing: Button("完成") {
                 presentationMode.wrappedValue.dismiss()
             })

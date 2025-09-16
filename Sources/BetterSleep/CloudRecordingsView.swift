@@ -1,6 +1,16 @@
 import SwiftUI
 import AVFoundation
 
+struct ActivityIndicator: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIActivityIndicatorView {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.startAnimating()
+        return indicator
+    }
+    
+    func updateUIView(_ uiView: UIActivityIndicatorView, context: Context) {}
+}
+
 extension Notification.Name {
     static let recordingSavedSuccessfully = Notification.Name("recordingSavedSuccessfully")
     static let recordingSaveFailed = Notification.Name("recordingSaveFailed")
@@ -28,11 +38,11 @@ struct CloudRecordingsView: View {
                         .foregroundColor(.gray)
                     
                     Text("录音存储功能已关闭")
-                        .font(.headline)
+                        .font(.system(size: 17, weight: .semibold))
                     
                     Text("您可以在设置中开启录音存储功能")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
+                        .font(.system(size: 15))
+                        .foregroundColor(Color(UIColor.secondaryLabel))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
                     
@@ -47,23 +57,26 @@ struct CloudRecordingsView: View {
                 .padding()
             } else if recordingManager.isStorageAvailable {
                 if recordingManager.isSavingToStorage {
-                    ProgressView("正在保存录音到\(recordingManager.storageType)...")
+                    VStack {
+    Text("正在保存录音到\(recordingManager.storageType)...")
+    ActivityIndicator()
+}
                         .padding()
                 } else if recordingManager.recordings.isEmpty {
                     Text("没有找到录音")
-                        .foregroundColor(.secondary)
+                        .foregroundColor(Color(UIColor.secondaryLabel))
                         .padding()
                 } else {
                     List {
-                        ForEach(recordingManager.recordings, id: \.self) { url in
+                        ForEach(recordingManager.recordings, id: \.absoluteString) { url in
                             HStack {
                                 VStack(alignment: .leading) {
                                     Text(formatRecordingName(url: url))
-                                        .font(.headline)
+                                        .font(.system(size: 17, weight: .semibold))
                                     
                                     Text(formatRecordingDate(url: url))
-                                        .font(.subheadline)
-                                        .foregroundColor(.secondary)
+                                        .font(.system(size: 15))
+                                        .foregroundColor(Color(UIColor.secondaryLabel))
                                 }
                                 
                                 Spacer()
@@ -76,7 +89,7 @@ struct CloudRecordingsView: View {
                                     }
                                 }) {
                                     Image(systemName: (playingURL == url && isPlaying) ? "stop.circle" : "play.circle")
-                                        .font(.title)
+                                        .font(.system(size: 28, weight: .bold))
                                         .foregroundColor(.blue)
                                 }
                                 .padding(.trailing, 8) // 增加右侧间距
@@ -96,7 +109,10 @@ struct CloudRecordingsView: View {
                 Button(action: {
                     recordingManager.loadRecordings()
                 }) {
-                    Label("刷新录音列表", systemImage: "arrow.clockwise")
+                    HStack {
+    Image(systemName: "arrow.clockwise")
+    Text("刷新录音列表")
+}
                 }
                 .padding()
             } else {
@@ -107,7 +123,7 @@ struct CloudRecordingsView: View {
                         .padding()
                     
                     Text("存储不可用")
-                        .font(.title)
+                        .font(.system(size: 28, weight: .bold))
                         .foregroundColor(.secondary)
                     
                     Text("无法访问存储，请检查应用权限设置")
@@ -118,19 +134,17 @@ struct CloudRecordingsView: View {
                 .padding()
             }
         }
-        .navigationTitle("录音记录")
+        .navigationBarTitle("录音记录")
         .alert(isPresented: $showAlert) {
-            Alert(
-                title: Text("删除录音"),
-                message: Text("确定要删除这个录音吗？此操作不可撤销。"),
-                primaryButton: .destructive(Text("删除")) {
-                    if let url = selectedRecording {
-                        deleteRecording(url: url)
-                    }
-                },
-                secondaryButton: .cancel()
-            )
-        }
+    Alert(title: Text("删除录音"),
+          message: Text("确定要删除这个录音吗？此操作不可撤销。"),
+          primaryButton: .destructive(Text("删除"), action: {
+              if let url = selectedRecording {
+                  deleteRecording(url: url)
+              }
+          }),
+          secondaryButton: .cancel())
+}
         .sheet(isPresented: $showSettings) {
             SettingsView()
         }
@@ -153,27 +167,12 @@ struct CloudRecordingsView: View {
                 showAlert = true
             }
         }
-        .onAppear {
-            // 监听保存成功通知
-            NotificationCenter.default.addObserver(forName: .recordingSavedSuccessfully, object: nil, queue: .main) { _ in
-                showSaveSuccess = true
-            }
-            
-            // 监听保存失败通知
-            NotificationCenter.default.addObserver(forName: .recordingSaveFailed, object: nil, queue: .main) { notification in
-                if let errorMessage = notification.object as? String {
-                    alertMessage = "保存录音失败: \(errorMessage)"
-                } else {
-                    alertMessage = "保存录音失败"
-                }
-                showAlert = true
-            }
-        }
-        .alert("录音保存成功", isPresented: $showSaveSuccess) {
-            Button("确定") {}
-        } message: {
-            Text("录音已成功保存到\(recordingManager.storageType)")
-        }
+        .alert(isPresented: $showSaveSuccess) {
+    Alert(
+        title: Text("录音保存成功\n录音已成功保存到\(recordingManager.storageType)"),
+        dismissButton: .default(Text("确定"))
+    )
+}
     }
     
     // 格式化录音名称
